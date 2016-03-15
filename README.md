@@ -4,9 +4,9 @@ SpringBoot-based API service for p2p-book-library-frontend project, it is duplic
 ###  How to run:
 
 1. git clone https://github.com/springside/springside4.git
-2. mvn install
+2. Go to springside4 folder and run "mvn install"
 3. git clone https://github.com/wanhongfu/p2p-book-library-frontend.git
-4. mvn spring-boot:run
+4. Go to p2p-book-library-frontend folder and run "mvn spring-boot:run"
 
 ### Changes
 
