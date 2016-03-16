@@ -1,9 +1,3 @@
-/*********************************************************************************
- * Copyright © 2015 Hierstar
- *
- * All Rights Reserved.
- *********************************************************************************/
-
 package org.springside.examples.bootapi.config;
 
 import org.springframework.context.annotation.Bean;
