@@ -1,7 +1,7 @@
 # p2p-book-library-backend
 SpringBoot-based API service for p2p-book-library-frontend project, it is duplicated from example module of [SpringSide4](https://github.com/springside/springside4).
 
-###  How to run (please ensure Java and Maven installed first):
+###  How to run (please ensure Java, Maven and git client installed first):
 
 1. git clone https://github.com/springside/springside4.git
 2. Go to springside4 folder and run "mvn install"
