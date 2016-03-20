@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springside.examples.bootapi.domain.Account;
+import org.springside.examples.bootapi.dto.AccountDto;
 import org.springside.examples.bootapi.service.AccountService;
 import org.springside.examples.bootapi.service.exception.ErrorCode;
 import org.springside.examples.bootapi.service.exception.ServiceException;
 import org.springside.modules.constants.MediaTypes;
+import org.springside.modules.mapper.BeanMapper;
 
 // Spring Restful MVC Controller的标识, 直接输出内容，不调用template引擎.
-@CrossOrigin
 @RestController
 public class AccountEndPoint {
 
@@ -25,6 +27,12 @@ public class AccountEndPoint {
 
 	@Autowired
 	private AccountService accountServcie;
+
+    @RequestMapping(value = "/api/tokens", produces = MediaTypes.JSON_UTF_8)
+    public AccountDto getByToken(@RequestParam(value = "token", required = true) String token) {
+        Account currentUser = accountServcie.getLoginUser(token);
+        return BeanMapper.map(currentUser, AccountDto.class);
+    }
 
 	@RequestMapping(value = "/api/accounts/login", produces = MediaTypes.JSON_UTF_8)
 	public Map<String, String> login(@RequestParam("email") String email, @RequestParam("password") String password) {
