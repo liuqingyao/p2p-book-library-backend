@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,10 +41,17 @@ public class BookEndpoint {
 	private BookBorrowService borrowService;
 
 	@RequestMapping(value = "/api/books", produces = MediaTypes.JSON_UTF_8)
-	public List<BookDto> listAllBook(Pageable pageable) {
-		Iterable<Book> books = adminService.findAll(pageable);
-
-		return BeanMapper.mapList(books, BookDto.class);
+	public Page<BookDto> listAllBook(Pageable pageable) {
+        Page<Book> books = adminService.findAll(pageable);
+        Page<BookDto> result = books.map(new Converter<Book, BookDto>() {
+            @Override
+            public BookDto convert(Book book) {
+                return BeanMapper.map(book, BookDto.class);
+            }
+        });
+        return result;
+//		Iterable<Book> books = adminService.findAll(pageable);
+//		return BeanMapper.mapList(books, BookDto.class);
 	}
 
 	@RequestMapping(value = "/api/books/{id}", produces = MediaTypes.JSON_UTF_8)

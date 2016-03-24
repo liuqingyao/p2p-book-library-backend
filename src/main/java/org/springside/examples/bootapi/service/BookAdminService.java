@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class BookAdminService {
 	protected Clock clock = Clock.DEFAULT;
 
 	@Transactional(readOnly = true)
-	public Iterable<Book> findAll(Pageable pageable) {
+	public Page<Book> findAll(Pageable pageable) {
 		return bookDao.findAll(pageable);
 	}
 
