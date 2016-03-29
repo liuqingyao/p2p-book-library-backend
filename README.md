@@ -4,7 +4,7 @@ SpringBoot-based API service for p2p-book-library-frontend project, it is duplic
 ###  How to run (please ensure Java, Maven and git client installed first):
 
 1. git clone https://github.com/springside/springside4.git
-2. Go to springside4 folder and run "mvn install"
+2. Go to springside4/modules folder and run "mvn install"
 3. git clone https://github.com/wanhongfu/p2p-book-library-backend.git
 4. Go to p2p-book-library-backend folder and run "mvn spring-boot:run"
 5. The app run on localhost:8080
