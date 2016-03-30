@@ -6,13 +6,15 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springside.examples.bootapi.domain.Account;
 import org.springside.examples.bootapi.dto.AccountDto;
+import org.springside.examples.bootapi.dto.CredentialDto;
 import org.springside.examples.bootapi.service.AccountService;
 import org.springside.examples.bootapi.service.exception.ErrorCode;
 import org.springside.examples.bootapi.service.exception.ServiceException;
@@ -51,14 +53,14 @@ public class AccountEndPoint {
 		accountServcie.logout(token);
 	}
 
-	@RequestMapping(value = "/api/accounts/register")
-	public void register(@RequestParam("email") String email,
-			@RequestParam(value = "name", required = false) String name, @RequestParam("password") String password) {
+	@RequestMapping(value = "/api/accounts", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
+	public ResponseEntity<?> register(@RequestBody final CredentialDto credentialDto) {
 
-		if (StringUtils.isEmpty(email) || StringUtils.isEmpty(name) || StringUtils.isEmpty(password)) {
+		if (StringUtils.isEmpty(credentialDto.email) || StringUtils.isEmpty(credentialDto.name) || StringUtils.isEmpty(credentialDto.password)) {
 			throw new ServiceException("User or name or password empty", ErrorCode.BAD_REQUEST);
 		}
 
-		accountServcie.register(email, name, password);
+		accountServcie.register(credentialDto.email, credentialDto.name, credentialDto.password);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 }
