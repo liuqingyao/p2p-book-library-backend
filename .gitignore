@@ -4,3 +4,9 @@
 /.settings/
 /.idea/
 boot-api.iml
+
+boot-api.ipr
+
+boot-api.iws
+
+*.log

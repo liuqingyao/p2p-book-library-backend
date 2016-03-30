@@ -18,7 +18,7 @@ SpringBoot-based API service for p2p-book-library-frontend project, it is duplic
 ### 主要用例 (From [SpringSide4](https://github.com/springside/springside4))
 
 	
-全部示例以一个P2P图书馆展开，P2P图书馆避免了中央式图书馆所需的场地和图书管理员，大家把图书登记在应用里互相借阅。
+>全部示例以一个P2P图书馆展开，P2P图书馆避免了中央式图书馆所需的场地和图书管理员，大家把图书登记在应用里互相借阅。
 
 >**1. 图书借阅流程**
 >
