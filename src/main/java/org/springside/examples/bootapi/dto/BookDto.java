@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class BookDto {
 
 	public Long id;
-	public String bookId;
+	public String doubanId;
 	public String title;
 	public String url;
 	public String status;
