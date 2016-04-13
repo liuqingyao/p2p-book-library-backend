@@ -75,7 +75,7 @@ public class BookEndpoint {
 		adminService.saveBook(book, currentUser);
 	}
 
-	@RequestMapping(value = "/api/books/{id}/modify", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/api/books/{id}", method = RequestMethod.PUT, consumes = MediaTypes.JSON_UTF_8)
 	public void modifyBook(@RequestBody BookDto bookDto,
 			@RequestParam(value = "token", required = false) String token) {
 		checkToken(token);
