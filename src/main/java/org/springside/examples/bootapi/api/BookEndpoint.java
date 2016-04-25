@@ -40,7 +40,7 @@ public class BookEndpoint {
 	@Autowired
 	private BookBorrowService borrowService;
 
-	@RequestMapping(value = "/api/books", produces = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/api/books", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public Page<BookDto> listAllBook(Pageable pageable) {
         Page<Book> books = adminService.findAll(pageable);
         Page<BookDto> result = books.map(new Converter<Book, BookDto>() {
@@ -54,7 +54,7 @@ public class BookEndpoint {
 //		return BeanMapper.mapList(books, BookDto.class);
 	}
 
-	@RequestMapping(value = "/api/books/{id}", produces = MediaTypes.JSON_UTF_8)
+	@RequestMapping(value = "/api/books/{id}", method = RequestMethod.GET, produces = MediaTypes.JSON_UTF_8)
 	public BookDto listOneBook(@PathVariable("id") Long id) {
 		Book book = adminService.findOne(id);
 
@@ -84,7 +84,7 @@ public class BookEndpoint {
 		adminService.modifyBook(book, currentUser.id);
 	}
 
-	@RequestMapping(value = "/api/books/{id}/delete")
+	@RequestMapping(value = "/api/books/{id}", method = RequestMethod.DELETE)
 	public void deleteBook(@PathVariable("id") Long id, @RequestParam(value = "token", required = false) String token) {
 		checkToken(token);
 		Account currentUser = accountService.getLoginUser(token);
