@@ -1,7 +1,14 @@
 package org.springside.examples.bootapi.api;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springside.examples.bootapi.domain.Account;
 import org.springside.examples.bootapi.domain.Book;
 import org.springside.examples.bootapi.dto.BookDto;
@@ -28,6 +36,8 @@ import org.springside.modules.mapper.BeanMapper;
 // Spring Restful MVC Controller的标识, 直接输出内容，不调用template引擎.
 @RestController
 public class BookEndpoint {
+
+	public static final String BOOK_IMG_UPLOAD_PATH = System.getProperty("user.dir") + "/book_img/";
 
 	private static Logger logger = LoggerFactory.getLogger(BookEndpoint.class);
 
@@ -59,6 +69,38 @@ public class BookEndpoint {
 		Book book = adminService.findOne(id);
 
 		return BeanMapper.map(book, BookDto.class);
+	}
+	
+	@RequestMapping(value = "/api/books/{id}/icon", method = RequestMethod.POST)
+	public void uploadBookImg(@PathVariable("id") Long id, @RequestParam("icon") MultipartFile file) {
+		try {
+			File uploadFolder = new File(BOOK_IMG_UPLOAD_PATH);
+			if (!uploadFolder.exists()) {
+				uploadFolder.mkdir();
+			}
+			String fileName = id + ".jpg";
+			File destFile = new File(uploadFolder, fileName);
+			if (!destFile.exists()) {
+				destFile.createNewFile();	
+			}
+			file.transferTo(destFile);			
+		} catch (Exception e) {
+			logger.error("error hit when upload book image", e);
+		}
+	}
+	
+	@RequestMapping(value = "/api/books/{id}/icon", method = RequestMethod.GET)
+	public void downloadBoomImg(@PathVariable("id") Long id, HttpServletResponse response) throws FileNotFoundException, IOException {
+		File uploadFolder = new File(BOOK_IMG_UPLOAD_PATH);
+		if (!uploadFolder.exists()) {
+			uploadFolder.mkdir();
+		}
+		String fileName = id + ".jpg";
+		File destFile = new File(uploadFolder, fileName);
+		if(!destFile.exists()) {
+			destFile = new File(uploadFolder, "no_book_img.png");
+		}
+		IOUtils.copy(new FileInputStream(destFile), response.getOutputStream());
 	}
 
 	@RequestMapping(value = "/api/books", method = RequestMethod.POST, consumes = MediaTypes.JSON_UTF_8)

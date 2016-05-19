@@ -1,14 +1,14 @@
 package org.springside.examples.bootapi.config;
 
+import javax.servlet.MultipartConfigElement;
+
+import org.springframework.boot.context.embedded.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * 
@@ -36,4 +36,12 @@ public class WebConfiguration {
         	
         };
     }	
+	
+	@Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize("5120MB");
+        factory.setMaxRequestSize("5120MB");
+        return factory.createMultipartConfig();
+    }
 }
